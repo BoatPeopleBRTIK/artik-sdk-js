@@ -12,6 +12,7 @@ var artik        = require('../src');
 
 /* Test Specific Includes */
 var loopback;
+var port;
 
 /* Test Case Module */
 testCase('Serial', function() {
@@ -86,9 +87,9 @@ testCase('Serial', function() {
 
 	});
 
-    testCase('#get_*(), #set_*()', function() {
-        assertions('Get the value that are passed to the constructor', function(done) {
-        	assert.equal(loopback.get_baudrate(), 115200);
+	testCase('#get_*(), #set_*()', function() {
+		assertions('Get the value that are passed to the constructor', function(done) {
+			assert.equal(loopback.get_baudrate(), 115200);
 			assert.equal(loopback.get_parity(), 'none');
 			assert.equal(loopback.get_data_bits(), 8);
 			assert.equal(loopback.get_stop_bits(), 1);
@@ -110,7 +111,7 @@ testCase('Serial', function() {
 			assert.equal(loopback.get_stop_bits(), 2);
 
 			loopback.set_flowctrl('soft');
-      		assert.equal(loopback.get_flowctrl(), 'soft');
+			assert.equal(loopback.get_flowctrl(), 'soft');
 			done();
 		});
 
@@ -121,7 +122,7 @@ testCase('Serial', function() {
 			assert.throws(function() { loopback.set_stop_bits('1bit') }, TypeError, 'nan');
 			assert.throws(function() { loopback.set_flowctrl(1) }, TypeError, 1);
 		});
-    });
+	});
 
 	post(function() {
 		//loopback.release();
