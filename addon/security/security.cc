@@ -1760,7 +1760,6 @@ void SecurityWrapper::generate_dhm_params(
   Isolate* isolate = args.GetIsolate();
   artik_error res = S_OK;
   const char *const_key_name;
-  see_algorithm algorithm;
   unsigned char *pubkey;
   unsigned int pubkey_size = 0;
 
@@ -1770,7 +1769,7 @@ void SecurityWrapper::generate_dhm_params(
     return;
   }
 
-  if (!args[0]->IsNumber()) {
+  if (!args[0]->IsString()) {
     isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
       isolate, "Wrong arguments")));
     return;
@@ -1784,11 +1783,19 @@ void SecurityWrapper::generate_dhm_params(
 
   Security *obj = ObjectWrap::Unwrap<SecurityWrapper>(args.Holder())->getObj();
 
-  algorithm = (see_algorithm)args[0]->IntegerValue();
-  String::Utf8Value param0(args[1]->ToString());
-  const_key_name = *param0;
+  String::Utf8Value param0(args[0]->ToString());
 
-  res = obj->generate_dhm_params(algorithm, const_key_name,
+  auto optio_algo =  SSLConfigConverter::convert_see_algo(*param0);
+  if (!optio_algo.first) {
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
+      isolate, "Wrong arguments")));
+    return;
+  }
+
+  String::Utf8Value param1(args[1]->ToString());
+  const_key_name = *param1;
+
+  res = obj->generate_dhm_params(optio_algo.second, const_key_name,
     &pubkey, &pubkey_size);
 
   if (res != S_OK) {
@@ -1910,7 +1917,6 @@ void SecurityWrapper::generate_ecdh_params(
   Isolate* isolate = args.GetIsolate();
   artik_error res = S_OK;
   const char *const_key_name;
-  see_algorithm algorithm;
   unsigned char *pubkey;
   unsigned int pubkey_size = 0;
 
@@ -1920,7 +1926,7 @@ void SecurityWrapper::generate_ecdh_params(
     return;
   }
 
-  if (!args[0]->IsNumber()) {
+  if (!args[0]->IsString()) {
     isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
       isolate, "Wrong arguments")));
     return;
@@ -1934,11 +1940,19 @@ void SecurityWrapper::generate_ecdh_params(
 
   Security *obj = ObjectWrap::Unwrap<SecurityWrapper>(args.Holder())->getObj();
 
-  algorithm = (see_algorithm)args[0]->IntegerValue();
-  String::Utf8Value param0(args[1]->ToString());
-  const_key_name = *param0;
+  String::Utf8Value param0(args[0]->ToString());
 
-  res = obj->generate_ecdh_params(algorithm, const_key_name, &pubkey,
+  auto optio_algo =  SSLConfigConverter::convert_see_algo(*param0);
+  if (!optio_algo.first) {
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
+      isolate, "Wrong arguments")));
+    return;
+  }
+
+  String::Utf8Value param1(args[1]->ToString());
+  const_key_name = *param1;
+
+  res = obj->generate_ecdh_params(optio_algo.second, const_key_name, &pubkey,
     &pubkey_size);
 
   if (res != S_OK) {
