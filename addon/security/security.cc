@@ -683,74 +683,7 @@ void SecurityWrapper::get_rsa_signature(
   unsigned int hash_size = 0;
   unsigned char *rsa_sig = NULL;
   unsigned int rsa_sig_size = 0;
-  see_rsa_mode rsa_key_algorithm;
-
-  if (args.Length() != 3) {
-    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
-        isolate, "Wrong number of arguments")));
-    return;
-  }
-
-  if (!args[0]->IsString()) {
-    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
-      isolate, "Wrong arguments")));
-    return;
-  }
-
-  if (!args[1]->IsString()) {
-    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
-      isolate, "Wrong arguments")));
-    return;
-  }
-
-  if (!args[2]->IsObject()) {
-    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
-      isolate, "Wrong arguments")));
-    return;
-  }
-
-  Security *obj = ObjectWrap::Unwrap<SecurityWrapper>(args.Holder())->getObj();
-
-  String::Utf8Value param0(args[0]->ToString());
-
-  auto it = rsa_mode.find(*param0);
-  if (it != rsa_mode.end()) {
-    rsa_key_algorithm = it->second;
-  } else {
-    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
-      isolate, "Wrong arguments")));
-    return;
-  }
-
-  String::Utf8Value param1(args[1]->ToString());
-  rsa_key_name = *param1;
-  hash = reinterpret_cast<unsigned char*>(node::Buffer::Data(args[2]));
-  hash_size = node::Buffer::Length(args[2]);
-
-  res = obj->get_rsa_signature(rsa_key_algorithm, rsa_key_name, hash, hash_size,
-    0, &rsa_sig, &rsa_sig_size);
-
-  if (res != S_OK) {
-    isolate->ThrowException(Exception::TypeError(
-      String::NewFromUtf8(isolate, error_msg(res))));
-    return;
-  }
-
-  args.GetReturnValue().Set(Nan::CopyBuffer(
-    reinterpret_cast<const char *>(rsa_sig), rsa_sig_size).ToLocalChecked());
-  delete(rsa_sig);
-}
-
-void SecurityWrapper::verify_rsa_signature(
-  const FunctionCallbackInfo<Value>& args) {
-  Isolate* isolate = args.GetIsolate();
-
-  artik_error res = S_OK;
-  char *rsa_key_name = NULL;
-  unsigned char *hash = NULL;
-  unsigned int hash_size = 0;
-  unsigned char *rsa_sig = NULL;
-  unsigned int rsa_sig_size = 0;
+  unsigned int salt_size = 0;
   see_rsa_mode rsa_key_algorithm;
 
   if (args.Length() != 4) {
@@ -777,7 +710,7 @@ void SecurityWrapper::verify_rsa_signature(
     return;
   }
 
-  if (!args[3]->IsObject()) {
+  if (!args[3]->IsNumber()) {
     isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
       isolate, "Wrong arguments")));
     return;
@@ -800,11 +733,95 @@ void SecurityWrapper::verify_rsa_signature(
   rsa_key_name = *param1;
   hash = reinterpret_cast<unsigned char*>(node::Buffer::Data(args[2]));
   hash_size = node::Buffer::Length(args[2]);
-  rsa_sig = reinterpret_cast<unsigned char*>(node::Buffer::Data(args[3]));
-  rsa_sig_size = node::Buffer::Length(args[3]);
+
+  salt_size = args[3]->IntegerValue();
+
+  res = obj->get_rsa_signature(rsa_key_algorithm, rsa_key_name, hash, hash_size,
+    salt_size, &rsa_sig, &rsa_sig_size);
+
+  if (res != S_OK) {
+    isolate->ThrowException(Exception::TypeError(
+      String::NewFromUtf8(isolate, error_msg(res))));
+    return;
+  }
+
+  args.GetReturnValue().Set(Nan::CopyBuffer(
+    reinterpret_cast<const char *>(rsa_sig), rsa_sig_size).ToLocalChecked());
+  delete(rsa_sig);
+}
+
+void SecurityWrapper::verify_rsa_signature(
+  const FunctionCallbackInfo<Value>& args) {
+  Isolate* isolate = args.GetIsolate();
+
+  artik_error res = S_OK;
+  char *rsa_key_name = NULL;
+  unsigned char *hash = NULL;
+  unsigned int hash_size = 0;
+  unsigned char *rsa_sig = NULL;
+  unsigned int rsa_sig_size = 0;
+  unsigned int salt_size = 0;
+  see_rsa_mode rsa_key_algorithm;
+
+  if (args.Length() != 5) {
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
+        isolate, "Wrong number of arguments")));
+    return;
+  }
+
+  if (!args[0]->IsString()) {
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
+      isolate, "Wrong arguments")));
+    return;
+  }
+
+  if (!args[1]->IsString()) {
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
+      isolate, "Wrong arguments")));
+    return;
+  }
+
+  if (!args[2]->IsObject()) {
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
+      isolate, "Wrong arguments")));
+    return;
+  }
+
+  if (!args[3]->IsNumber()) {
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
+      isolate, "Wrong arguments")));
+    return;
+  }
+
+  if (!args[4]->IsObject()) {
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
+      isolate, "Wrong arguments")));
+    return;
+  }
+
+  Security *obj = ObjectWrap::Unwrap<SecurityWrapper>(args.Holder())->getObj();
+
+  String::Utf8Value param0(args[0]->ToString());
+
+  auto it = rsa_mode.find(*param0);
+  if (it != rsa_mode.end()) {
+    rsa_key_algorithm = it->second;
+  } else {
+    isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
+      isolate, "Wrong arguments")));
+    return;
+  }
+
+  String::Utf8Value param1(args[1]->ToString());
+  rsa_key_name = *param1;
+  hash = reinterpret_cast<unsigned char*>(node::Buffer::Data(args[2]));
+  hash_size = node::Buffer::Length(args[2]);
+  salt_size = args[3]->IntegerValue();
+  rsa_sig = reinterpret_cast<unsigned char*>(node::Buffer::Data(args[4]));
+  rsa_sig_size = node::Buffer::Length(args[4]);
 
   res = obj->verify_rsa_signature(rsa_key_algorithm, rsa_key_name, hash,
-    hash_size, 0, rsa_sig, rsa_sig_size);
+    hash_size, salt_size, rsa_sig, rsa_sig_size);
 
   if (res != S_OK) {
     isolate->ThrowException(Exception::TypeError(
@@ -1230,7 +1247,7 @@ void SecurityWrapper::aes_encryption(const FunctionCallbackInfo<Value>& args) {
     return;
   }
 
-  if (!args[0]->IsNumber()) {
+  if (!args[0]->IsString()) {
     isolate->ThrowException(Exception::TypeError(String::NewFromUtf8(
       isolate, "Wrong arguments")));
     return;

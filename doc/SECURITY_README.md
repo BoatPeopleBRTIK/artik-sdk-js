@@ -329,7 +329,7 @@ Generate a key
 ## get_hmac
 
 ```javascript
-get_hmac(Number see_hash_mode, String hmac_key_name, Buffer sample_key)
+get_hmac(String see_hash_mode, String hmac_key_name, Buffer sample_key)
 ```
 
 **Description**
@@ -338,7 +338,7 @@ Get HMAC from input data.
 
 **Parameters**
 
- - *Number*: Hash algorithm.
+ - *String*: Hash algorithm.
  - *String*: HMAC key to use.
  - *Buffer*: Input data.
 
@@ -349,7 +349,7 @@ Get HMAC from input data.
 ## remove_key
 
 ```javascript
-remove_key(Number key_algorithm, String const_key_name)
+remove_key(String key_algorithm, String const_key_name)
 ```
 
 **Description**
@@ -358,7 +358,7 @@ Remove a key
 
 **Parameters**
 
- - *Number*: Key algorithm.
+ - *String*: Key algorithm.
  - *String*: Key path and identity.
 
 **Return value**
@@ -368,7 +368,7 @@ Remove a key
 ## get_rsa_signature
 
 ```javascript
-get_rsa_signature(Number see_rsa_mode, String rsa_key_name, Buffer hash)
+get_rsa_signature(String see_rsa_mode, String rsa_key_name, Buffer hash)
 ```
 
 **Description**
@@ -377,7 +377,7 @@ Get rsa signature for input data.
 
 **Parameters**
 
- - *Number*: RSA algorithm. This should be in @ref see_rsa_mode define form.
+ - *String*: RSA algorithm. This should be in @ref see_rsa_mode define form.
  - *String*: Key_name : RSA key to use.
  - *Buffer*: Hash value. User should calculate hash value from a message.
  get_hash() might be used for it.
@@ -389,7 +389,7 @@ Get rsa signature for input data.
 ## verify_rsa_signature
 
 ```javascript
-verify_rsa_signature(Number see_rsa_mode, String rsa_key_name, Buffer hash, Buffer rsa_sig)
+verify_rsa_signature(String see_rsa_mode, String rsa_key_name, Buffer hash, Buffer rsa_sig)
 ```
 
 **Description**
@@ -398,7 +398,7 @@ Verify rsa signature for input hash
 
 **Parameters**
 
- - *Number*: RSA algorithm. This should be in @ref see_rsa_mode define form.
+ - *String*: RSA algorithm. This should be in @ref see_rsa_mode define form.
  - *String*: Key_name : RSA key to use.
  - *Buffer*: Hash value. User should calculate hash value from a message.
  get_hash() might be used for it.
@@ -411,7 +411,7 @@ Verify rsa signature for input hash
 ## get_ecdsa_signature
 
 ```javascript
-get_ecdsa_signature(Number see_algorithm, String ecc_key_name, Buffer hash)
+get_ecdsa_signature(String see_algorithm, String ecc_key_name, Buffer hash)
 ```
 
 **Description**
@@ -420,7 +420,7 @@ Get ecdsa signature for input data.
 
 **Parameters**
 
- - *Number*: ECDSA algorithm.
+ - *String*: ECDSA algorithm.
  - *String*: ECC key to use.
  - *Buffer*: Hash value. User should calculate hash value from a message.
  get_hash() might be used for it.
@@ -432,7 +432,7 @@ Get ecdsa signature for input data.
 ## verify_ecdsa_signature
 
 ```javascript
-verify_ecdsa_signature(Number see_algorithm, String ecc_key_name, Buffer hash, Buffer ecdsa_sig)
+verify_ecdsa_signature(String see_algorithm, String ecc_key_name, Buffer hash, Buffer ecdsa_sig)
 ```
 
 **Description**
@@ -441,7 +441,7 @@ Verify ecdsa signature for input hash
 
 **Parameters**
 
- - *Number*: ECDSA algorithm.
+ - *String*: ECDSA algorithm.
  - *String*: ECC key to use.
  - *Buffer*: Hash value. User should calculate hash value from a message.
  get_hash() might be used for it.
@@ -454,7 +454,7 @@ Verify ecdsa signature for input hash
 ## set_key
 
 ```javascript
-set_key(Number see_algorithm, String sample_key_name, Buffer sample_key)
+set_key(String see_algorithm, String sample_key_name, Buffer sample_key)
 ```
 
 **Description**
@@ -463,7 +463,7 @@ Set a key.
 
 **Parameters**
 
- - *Number*: Key algorithm.
+ - *String*: Key algorithm.
  - *String*: Key path and identity.
  - *Buffer*: Key form is in DER.
 
@@ -474,7 +474,7 @@ Set a key.
 ## get_publickey
 
 ```javascript
-get_publickey(Number see_algorithm, String sample_key_name)
+get_publickey(String see_algorithm, String sample_key_name)
 ```
 
 **Description**
@@ -483,7 +483,7 @@ Get public key from an asymmetric key.
 
 **Parameters**
 
- - *Number*: Key algorithm.
+ - *String*: Key algorithm.
  - *String*: Key path and identity.
  - *Buffer*: Key form is in DER.
 
@@ -553,7 +553,7 @@ Remove a data from secure storage.
 ## aes_encryption
 
 ```javascript
-aes_encryption(Number see_aes_mode, String aes_key_name, Buffer iv, Buffer sample_key)
+aes_encryption(String see_aes_mode, String aes_key_name, Buffer iv, Buffer sample_key)
 ```
 
 **Description**
@@ -562,7 +562,7 @@ Encrypt a input message using AES.
 
 **Parameters**
 
- - *Number*: AES algorithm.
+ - *String*: AES algorithm.
  - *String*: AES key path and identity.
  - *Buffer*: Initial vector value.
  - *Buffer*: Input message to be encrypted.
@@ -574,7 +574,7 @@ Encrypt a input message using AES.
 ## aes_decryption
 
 ```javascript
-aes_decryption(Number see_aes_mode, String aes_key_name, Buffer iv, Buffer aes_enc_data)
+aes_decryption(String see_aes_mode, String aes_key_name, Buffer iv, Buffer aes_enc_data)
 ```
 
 **Description**
@@ -583,7 +583,7 @@ Encrypt a input message using AES.
 
 **Parameters**
 
- - *Number*: AES algorithm.
+ - *String*: AES algorithm.
  - *String*: AES key path and identity.
  - *Buffer*: Initial vector value.
  - *Buffer*: Input message to be decrypted.
@@ -595,7 +595,7 @@ Encrypt a input message using AES.
 ## rsa_encryption
 
 ```javascript
-rsa_encryption(Number see_rsa_mode, String rsa_key_name, Buffer sample_key)
+rsa_encryption(String see_rsa_mode, String rsa_key_name, Buffer sample_key)
 ```
 
 **Description**
@@ -604,7 +604,7 @@ Encrypt a input message using RSAES.
 
 **Parameters**
 
- - *Number*: RSAES mode.
+ - *String*: RSAES mode.
  - *String*: RSA key path and name.
  - *Buffer*: Input message to be encrypted.
 
@@ -616,7 +616,7 @@ Encrypt a input message using RSAES.
 ## rsa_decryption
 
 ```javascript
-rsa_decryption(Number see_rsa_mode, String rsa_key_name, Buffer rsa_enc_data)
+rsa_decryption(String see_rsa_mode, String rsa_key_name, Buffer rsa_enc_data)
 ```
 
 **Description**
@@ -625,7 +625,7 @@ Decrypt a input message using RSAES.
 
 **Parameters**
 
- - *Number*: RSAES mode.
+ - *String*: RSAES mode.
  - *String*: RSA key path and name.
  - *Buffer*:  Input message to be decrypted.
 
@@ -654,7 +654,7 @@ Convert a certificate or a key from PEM format to DER format
 ## generate_dhm_params
 
 ```javascript
-generate_dhm_params(Number see_algorithm, String const_key_name)
+generate_dhm_params(String see_algorithm, String const_key_name)
 ```
 
 **Description**
@@ -662,7 +662,7 @@ generate_dhm_params(Number see_algorithm, String const_key_name)
 Generate DH key pair and get public key.
 
 **Parameters**
- - *Number*: Key algorithm.
+ - *String*: Key algorithm.
  - *String*: Key path and identity.
 
 **Return value**
@@ -708,7 +708,7 @@ Compute secret key from DH key and public key.
 ## generate_ecdh_params
 
 ```javascript
-generate_ecdh_params(Number see_algorithm, String const_key_name)
+generate_ecdh_params(String see_algorithm, String const_key_name)
 ```
 
 **Description**
@@ -716,7 +716,7 @@ generate_ecdh_params(Number see_algorithm, String const_key_name)
 Generate ECDH key.
 
 **Parameters**
- - *Number*: ECDH algorithm.
+ - *String*: ECDH algorithm.
  - *String*: Key path and identity.
 
 **Return value**
@@ -726,7 +726,7 @@ Generate ECDH key.
 ## compute_ecdh_params
 
 ```javascript
-generate_ecdh_params(Number see_algorithm, String const_key_name)
+generate_ecdh_params(String const_key_name, Buffer const_key_name)
 ```
 
 **Description**
@@ -734,8 +734,8 @@ generate_ecdh_params(Number see_algorithm, String const_key_name)
 Compute secret key from ECDH key and public key.
 
 **Parameters**
- - *String*: Key path and identity.
- - *Buffer*: Public key value.
+- *String*: Key path and identity.
+- *Buffer*: Key path and identity.
 
 **Return value**
 

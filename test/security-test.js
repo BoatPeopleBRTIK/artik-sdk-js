@@ -106,12 +106,8 @@ var expected_hash = new Buffer([
 	0x67, 0x0d, 0xc5, 0x0b, 0xfe, 0xbe, 0xef, 0xc9
 ]);
 
-var aes_input = new Buffer([
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0,
-	1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0
+var aes_input  = new Buffer([
+	1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6
 ]);
 
 /* Test Case Module */
@@ -275,7 +271,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.set_key(hmac_algorithm, 'SSDEF/1', input_hmac);
+				var res = security.set_key(hmac_algorithm, 'SSDEF/0', input_hmac);
 				done();
 			} catch (err) {
 				console.log("[Exception] : " + err.message);
@@ -289,7 +285,7 @@ testCase('Test JS security API', function() {
 			var see_hash_mode = "sha1";
 
 			try {
-				var hmac = security.get_hmac(see_hash_mode, 'SSDEF/1', input_hmac);
+				var hmac = security.get_hmac(see_hash_mode, 'SSDEF/0', input_hmac);
 
 				console.log("HMAC of the input data: \n" + hmac.toString('hex'));
 				done();
@@ -304,7 +300,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.remove_key(hmac_algorithm, 'SSDEF/1');
+				var res = security.remove_key(hmac_algorithm, 'SSDEF/0');
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -316,18 +312,17 @@ testCase('Test JS security API', function() {
 	testCase('#RSA Test', function() {
 
 		var rsa_sig;
-		var hash_algo;
 		var rsa_algorithm = "rsa1024";
 		var hash_algorithm = "sha1";
 		var hash_rsa = new Buffer.alloc(300, 0x35);
-		var rsa_signature_algorithm = "rsaes_1024_pkcs1_v1_5";
+		var rsa_signature_algorithm = "rsassa_1024_pkcs1_v1_5_sha160";
 
 		step('#set_key: Set a RSA key.', function(done) {
 
 			this.timeout(10000);
 
 			try {
-				var res = security.set_key(rsa_algorithm, 'SSDEF/2', rsa_sample_key);
+				var res = security.set_key(rsa_algorithm, 'SSDEF/0', rsa_sample_key);
 				done();
 			} catch (err) {
 				console.log("[Exception] : " + err.message);
@@ -353,7 +348,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				rsa_sig = security.get_rsa_signature(rsa_signature_algorithm, 'SSDEF/2', res_hash);
+				rsa_sig = security.get_rsa_signature(rsa_signature_algorithm, 'SSDEF/0', res_hash, 0);
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -366,7 +361,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.verify_rsa_signature(rsa_signature_algorithm, 'SSDEF/2', hash_algo, rsa_sig);
+				var res = security.verify_rsa_signature(rsa_signature_algorithm, 'SSDEF/0', res_hash, 0, rsa_sig);
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -379,7 +374,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.remove_key(rsa_algorithm, 'SSDEF/2');
+				var res = security.remove_key(rsa_algorithm, 'SSDEF/0');
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -399,7 +394,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.set_key(ecdsa_key_algorithm, 'SSDEF/1', ecc_pair);
+				var res = security.set_key(ecdsa_key_algorithm, 'SSDEF/0', ecc_pair);
 				done();
 			} catch (err) {
 				console.log("[Exception] : " + err.message);
@@ -411,7 +406,7 @@ testCase('Test JS security API', function() {
 
 			this.timeout(10000);
 			try {
-				ecdsa_sig = security.get_ecdsa_signature(ecdsa_key_algorithm, 'SSDEF/1', hash_ecdsa);
+				ecdsa_sig = security.get_ecdsa_signature(ecdsa_key_algorithm, 'SSDEF/0', hash_ecdsa);
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -424,7 +419,7 @@ testCase('Test JS security API', function() {
 
 			this.timeout(10000);
 			try {
-				var res = security.verify_ecdsa_signature(ecdsa_key_algorithm, 'SSDEF/1', hash_ecdsa, ecdsa_sig);
+				var res = security.verify_ecdsa_signature(ecdsa_key_algorithm, 'SSDEF/0', hash_ecdsa, ecdsa_sig);
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -437,7 +432,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.remove_key(ecdsa_key_algorithm, 'SSDEF/1');
+				var res = security.remove_key(ecdsa_key_algorithm, 'SSDEF/0');
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -455,7 +450,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.set_key(sample_key_algorithm, 'SSDEF/1', sample_key);
+				var res = security.set_key(sample_key_algorithm, 'SSDEF/0', sample_key);
 				done();
 			} catch (err) {
 				console.log("[Exception] : " + err.message);
@@ -468,7 +463,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.remove_key(sample_key_algorithm, 'SSDEF/1');
+				var res = security.remove_key(sample_key_algorithm, 'SSDEF/0');
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -480,7 +475,7 @@ testCase('Test JS security API', function() {
 
 			this.timeout(10000);
 			try {
-				var res = security.generate_key(generate_key_algorithm, 'SSDEF/1');
+				var res = security.generate_key(generate_key_algorithm, 'SSDEF/0');
 				done();
 			} catch (err) {
 				console.log("[Exception] : " + err.message);
@@ -492,7 +487,7 @@ testCase('Test JS security API', function() {
 
 			this.timeout(10000);
 			try {
-				var publickey = security.get_publickey(generate_key_algorithm, 'SSDEF/1');
+				var publickey = security.get_publickey(generate_key_algorithm, 'SSDEF/0');
 				console.log("Publickey from asymmetric key:\n" + publickey.toString('hex'));
 				done();
 			} catch (err) {
@@ -505,7 +500,7 @@ testCase('Test JS security API', function() {
 
 			this.timeout(10000);
 			try {
-				var res = security.remove_key(generate_key_algorithm, 'SSDEF/1');
+				var res = security.remove_key(generate_key_algorithm, 'SSDEF/0');
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -724,7 +719,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var pubkey = security.generate_dhm_params(dh_algorithm, 'SSDEF/1');
+				var pubkey = security.generate_dhm_params(dh_algorithm, 'SSDEF/0');
 				console.log(pubkey);
 				done();
 			} catch (err) {
@@ -735,7 +730,7 @@ testCase('Test JS security API', function() {
 
 		step('#remove_key: Remove a dh key.', function(done) {
 			try {
-				var res = security.remove_key(dh_algorithm, 'SSDEF/1');
+				var res = security.remove_key(dh_algorithm, 'SSDEF/0');
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -760,7 +755,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				pubkey = security.set_dhm_params('SSDEF/1', dh_params);
+				pubkey = security.set_dhm_params('SSDEF/0', dh_params);
 				console.log(pubkey);
 				done();
 			} catch (err) {
@@ -774,7 +769,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var secret = security.compute_dhm_params('SSDEF/1', pubkey);
+				var secret = security.compute_dhm_params('SSDEF/0', pubkey);
 				console.log(secret);
 				done();
 			} catch (err) {
@@ -788,7 +783,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.remove_key(dh_algorithm, 'SSDEF/1');
+				var res = security.remove_key(dh_algorithm, 'SSDEF/0');
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);
@@ -806,7 +801,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				pubkey = security.generate_ecdh_params(ecdh_algorithm, 'SSDEF/1');
+				pubkey = security.generate_ecdh_params(ecdh_algorithm, 'SSDEF/0');
 				console.log(pubkey);
 				done();
 			} catch (err) {
@@ -820,7 +815,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var secret = security.compute_ecdh_params('SSDEF/1', pubkey);
+				var secret = security.compute_ecdh_params('SSDEF/0', pubkey);
 				console.log(secret);
 				done();
 			} catch (err) {
@@ -834,7 +829,7 @@ testCase('Test JS security API', function() {
 			this.timeout(10000);
 
 			try {
-				var res = security.remove_key(ecdh_algorithm, 'SSDEF/1');
+				var res = security.remove_key(ecdh_algorithm, 'SSDEF/0');
 				done();
 			} catch (err) {
 				assert(!err, "[Exception] : " + err.message);

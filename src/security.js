@@ -69,12 +69,12 @@ Security.prototype.remove_key = function (see_algorithm, const_key_name) {
     return this.security.remove_key(see_algorithm, const_key_name);
 }
 
-Security.prototype.get_rsa_signature = function (see_rsa_mode, rsa_key_name, hash) {
-    return this.security.get_rsa_signature(see_rsa_mode, rsa_key_name, hash);
+Security.prototype.get_rsa_signature = function (see_rsa_mode, rsa_key_name, hash, salt_size) {
+    return this.security.get_rsa_signature(see_rsa_mode, rsa_key_name, hash, salt_size);
 }
 
-Security.prototype.verify_rsa_signature = function (see_rsa_mode, rsa_key_name, hash, rsa_sig) {
-    return this.security.verify_rsa_signature(see_rsa_mode, rsa_key_name, hash, rsa_sig);
+Security.prototype.verify_rsa_signature = function (see_rsa_mode, rsa_key_name, hash, salt_size, rsa_sig) {
+    return this.security.verify_rsa_signature(see_rsa_mode, rsa_key_name, hash, salt_size, rsa_sig);
 }
 
 Security.prototype.get_ecdsa_signature = function (see_algorithm, ecc_key_name, hash) {
