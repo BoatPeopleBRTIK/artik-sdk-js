@@ -1638,34 +1638,34 @@ void SecurityWrapper::verify_signature_init(
   }
 
   if (args[2]->IsObject()) {
-    Local<Value> tab_args[0] = NULL;
+    Local<Value> tab_args;
     Local<Object> object = Local<Object>::Cast(args[2]->ToObject());
 
     memset(&signing_time_in, 0, sizeof(signing_time_in));
     signing_time_in.second = Local<Function>::Cast(object->Get(
       String::NewFromUtf8(isolate, "getUTCSeconds")))->Call(
-      object, 0, tab_args)->Int32Value();
+      object, 0, &tab_args)->Int32Value();
     signing_time_in.minute = Local<Function>::Cast(object->Get(
       String::NewFromUtf8(isolate, "getUTCMinutes")))->Call(
-    object, 0, tab_args)->Int32Value();
+    object, 0, &tab_args)->Int32Value();
     signing_time_in.hour = Local<Function>::Cast(object->Get(
       String::NewFromUtf8(isolate, "getUTCHours")))->Call(
-      object, 0, tab_args)->Int32Value();
+      object, 0, &tab_args)->Int32Value();
     signing_time_in.day = Local<Function>::Cast(object->Get(
       String::NewFromUtf8(isolate, "getUTCDate")))->Call(
-      object, 0, tab_args)->Int32Value();
+      object, 0, &tab_args)->Int32Value();
     signing_time_in.month = Local<Function>::Cast(object->Get(
       String::NewFromUtf8(isolate, "getUTCMonth")))->Call(
-      object, 0, tab_args)->Int32Value() + 1;
+      object, 0, &tab_args)->Int32Value() + 1;
     signing_time_in.year = Local<Function>::Cast(object->Get(
       String::NewFromUtf8(isolate, "getUTCFullYear")))->Call(
-      object, 0, tab_args)->Int32Value();
+      object, 0, &tab_args)->Int32Value();
     signing_time_in.day_of_week = Local<Function>::Cast(object->Get(
       String::NewFromUtf8(isolate, "getUTCDay")))->Call(
-      object, 0, tab_args)->Int32Value();
+      object, 0, &tab_args)->Int32Value();
     signing_time_in.msecond = Local<Function>::Cast(object->Get(
       String::NewFromUtf8(isolate, "getUTCMilliseconds")))->Call(
-      object, 0, tab_args)->Int32Value();
+      object, 0, &tab_args)->Int32Value();
     time_in = &signing_time_in;
   } else {
     time_in = NULL;

@@ -217,28 +217,28 @@ void TimeWrapper::set_time(const FunctionCallbackInfo<Value>& args) {
     return;
   }
 
-  Local<Value> tab_args[0] = NULL;
+  Local<Value> tab_args;
   Time* obj = ObjectWrap::Unwrap<TimeWrapper>(args.Holder())->getObj();
   Local<Object> object = Local<Object>::Cast(args[0]->ToObject());
   artik_time date;
 
   memset(&date, 0, sizeof(date));
   date.second = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCSeconds")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCSeconds")))->Call(object, 0, &tab_args)->Int32Value();
   date.minute = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCMinutes")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCMinutes")))->Call(object, 0, &tab_args)->Int32Value();
   date.hour = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCHours")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCHours")))->Call(object, 0, &tab_args)->Int32Value();
   date.day = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCDate")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCDate")))->Call(object, 0, &tab_args)->Int32Value();
   date.month = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCMonth")))->Call(object, 0, tab_args)->Int32Value() + 1;
+      isolate, "getUTCMonth")))->Call(object, 0, &tab_args)->Int32Value() + 1;
   date.year = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCFullYear")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCFullYear")))->Call(object, 0, &tab_args)->Int32Value();
   date.day_of_week = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCDay")))->Call(object, 0, tab_args)->Int32Value();
-  date.msecond = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCMilliseconds")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCDay")))->Call(object, 0, &tab_args)->Int32Value();
+  date.msecond = Local<Function>::Cast(object->Get(String::NewFromUtf8(isolate,
+      "getUTCMilliseconds")))->Call(object, 0, &tab_args)->Int32Value();
 
   args.GetReturnValue().Set(
       Number::New(isolate, obj->set_time(date, ARTIK_TIME_UTC)));
@@ -390,7 +390,7 @@ void TimeWrapper::convert_time_to_timestamp(
     return;
   }
 
-  Local<Value> tab_args[0] = NULL;
+  Local<Value> tab_args;
   Time* obj = ObjectWrap::Unwrap<TimeWrapper>(args.Holder())->getObj();
   Local<Object> object = Local<Object>::Cast(args[0]->ToObject());
   artik_time date;
@@ -398,21 +398,21 @@ void TimeWrapper::convert_time_to_timestamp(
 
   memset(&date, 0, sizeof(date));
   date.second = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCSeconds")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCSeconds")))->Call(object, 0, &tab_args)->Int32Value();
   date.minute = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCMinutes")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCMinutes")))->Call(object, 0, &tab_args)->Int32Value();
   date.hour = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCHours")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCHours")))->Call(object, 0, &tab_args)->Int32Value();
   date.day = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCDate")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCDate")))->Call(object, 0, &tab_args)->Int32Value();
   date.month = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCMonth")))->Call(object, 0, tab_args)->Int32Value() + 1;
+      isolate, "getUTCMonth")))->Call(object, 0, &tab_args)->Int32Value() + 1;
   date.year = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCFullYear")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCFullYear")))->Call(object, 0, &tab_args)->Int32Value();
   date.day_of_week = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCDay")))->Call(object, 0, tab_args)->Int32Value();
-  date.msecond = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCMilliseconds")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCDay")))->Call(object, 0, &tab_args)->Int32Value();
+  date.msecond = Local<Function>::Cast(object->Get(String::NewFromUtf8(isolate,
+      "getUTCMilliseconds")))->Call(object, 0, &tab_args)->Int32Value();
 
   artik_error ret = obj->convert_time_to_timestamp(&date, &timestamp);
   if (ret != S_OK) {
@@ -462,28 +462,28 @@ void TimeWrapper::create_alarm_date(const FunctionCallbackInfo<Value>& args) {
   Local<Object> js_alarm = AlarmWrapper::NewInstance();
   AlarmWrapper* alarmWrap = ObjectWrap::Unwrap<AlarmWrapper>(js_alarm);
 
-  Local<Value> tab_args[0] = NULL;
+  Local<Value> tab_args;
   Local<Object> object = Local<Object>::Cast(args[1]->ToObject());
   artik_time date;
 
   memset(&date, 0, sizeof(date));
   date.second = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCSeconds")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCSeconds")))->Call(object, 0, &tab_args)->Int32Value();
   date.minute = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCMinutes")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCMinutes")))->Call(object, 0, &tab_args)->Int32Value();
   date.hour = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCHours")))->Call(object, 0, tab_args)->Int32Value() +
+      isolate, "getUTCHours")))->Call(object, 0, &tab_args)->Int32Value() +
       args[0]->Int32Value();
   date.day = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCDate")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCDate")))->Call(object, 0, &tab_args)->Int32Value();
   date.month = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCMonth")))->Call(object, 0, tab_args)->Int32Value() + 1;
+      isolate, "getUTCMonth")))->Call(object, 0, &tab_args)->Int32Value() + 1;
   date.year = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCFullYear")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCFullYear")))->Call(object, 0, &tab_args)->Int32Value();
   date.day_of_week = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCDay")))->Call(object, 0, tab_args)->Int32Value();
-  date.msecond = Local<Function>::Cast(object->Get(String::NewFromUtf8(
-      isolate, "getUTCMilliseconds")))->Call(object, 0, tab_args)->Int32Value();
+      isolate, "getUTCDay")))->Call(object, 0, &tab_args)->Int32Value();
+  date.msecond = Local<Function>::Cast(object->Get(String::NewFromUtf8(isolate,
+      "getUTCMilliseconds")))->Call(object, 0, &tab_args)->Int32Value();
 
   alarmWrap->set_alarm_cb(Local<Function>::Cast(args[2]));
   Alarm *alarm = obj->create_alarm_date(
