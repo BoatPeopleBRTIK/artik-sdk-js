@@ -72,7 +72,7 @@ struct converter {
       js_type_to_cpp(v8::Local<v8::Value> val) {
     auto value = converter<uint32_t>::js_type_to_cpp(val);
 
-    if (value)
+    if (!value)
       return Optional<T>();
 
     return Optional<T>(value.value());
