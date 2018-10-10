@@ -27,25 +27,25 @@ Return the certificate stored in the Secure Element in PEM format
 console.log(get_certificate('ARTIK/O', 'ARTIK_SECURITY_CERT_TYPE_PEM'))
 ```
 
-## get_ca_chain
+## get_certificate_pem_chain
 
 ```javascript
-String get_certificate_pem_chain(String cert_name)
+Array get_certificate_pem_chain(String cert_name)
 ```
 
 **Description**
 
-Return the Certificate Authority chain of the device in PEM format.
+Return the certificate chain of the device and the root ca in PEM format.
 It contains one or more certificates used for verifying the device
 certificate stored in the SE.
 
 **Parameters**
 
-*String*: Certificate identifier. Must be **ARTIK/0**
+*String*: Certificate identifier.
 
 **Return value**
 
-*String*: PEM certificate(s) or error information
+*Array[String]*: PEM certificate(s)
 
 **Example**
 
@@ -91,7 +91,7 @@ stored in the Secure Element. It is returned as a buffer of bytes.
 
 **Parameters**
 
-*String*: Certificate identifier. Must be **ARTIK/O**
+*String*: Certificate identifier.
 
 **Return value**
 
@@ -212,8 +212,8 @@ Perform signature verification of a binary against its PKCS7 signature.
 
  - *String*: path to the file containing the PKCS7 signature in PEM format
  - *String*: path to the file containing the root CA file in PEM format
- - *String*: ID of the certificate from the Secure Element to use as the root CA.
- Accepted values are *'artik'*, *'manufacturer'*, or *''* (empty string) to use *root_ca_file*.
+ - *String*: Key path and identity ID of the certificate to use as the root CA.
+ Use an empty string if you wan to use the root CA in root_ca_file
  - *Date*: signing date of the previous applied update package, used for rollback detection.
  - *function(Object result)*: object containing result information as described below:
 

@@ -1,7 +1,7 @@
 var artik = require('../src');
 var opt = require('getopt');
 
-var security = new artik.security();
+var security = new artik.security.Security();
 
 /* Get path */
 var path_signature_pem = "";
@@ -80,10 +80,6 @@ opt.getopt(function (o, p) {
 		break;
 	case 'u':
 		se_id = String(p);
-		if (se_id != "artik" && se_id != "manufacturer") {
-			console.log("Invalid secure element id");
-			process.exit(-1);
-		}
 		break;
 	default:
 		usage();

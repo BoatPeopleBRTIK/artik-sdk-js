@@ -187,17 +187,8 @@ Security.prototype.pkcs7_sig_verify = function(path_signature_pem,
 		/* Get content of the root_ca file */
 		try {
 			/* Read file root_ca */
-			var ca_pem = this.security.get_ca_chain(se_id);
-
-			var len_start_cert = ca_pem.search(begin_cert);
-			if (len_start_cert == -1)
-				return return_cb(jsonReturn(err, "Malformed PEM certificate", undefined));
-
-			var len_end_cert = ca_pem.search(end_cert);
-			if (len_end_cert == -1)
-				return return_cb(jsonReturn(err, "Malformed PEM certificate", undefined));
-
-			var root_ca = ca_pem.substr(len_start_cert, len_end_cert + end_cert.length);
+			var ca_pem = this.security.get_certificate_pem_chain(se_id);
+			var root_ca = ca_pem[0];
 
 		} catch (err) {
 			return return_cb(jsonReturn(err, "Failed to get ca chain in secure element", undefined));
