@@ -1,6 +1,6 @@
 const artik_http = require("../src/http");
 const fs = require('fs');
-var http = new artik_http();
+global. http = new artik_http();
 
 var headers = [
 	"user-agent", "ARTIK browser",
@@ -67,3 +67,5 @@ http.put("https://httpbin.org/put", headers, body, ssl_config, function(response
 http.del("https://httpbin.org/delete", headers, ssl_config, function(response, status) {
 	console.log("DELETE - status " + status + " - response: " + response);
 });
+
+setTimeout(function() { process.exit(0) }, 10000);
