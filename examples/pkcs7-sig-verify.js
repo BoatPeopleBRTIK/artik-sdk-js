@@ -21,11 +21,14 @@ usage = function () {
 	process.stdout.write("-d [signing date] -u [artik/manufacturer]\n\n");
 	process.stdout.write("-s: signature - PKCS7 signature in PEM format\n");
 	process.stdout.write("-r: root CA - X509 root CA certificate in PEM format\n");
+	process.stdout.write("\tNote: if '-u' is passed, this value is ignored.\n");
 	process.stdout.write("-b: signed data - file containing the signed data\n");
 	process.stdout.write("-d: signing date (optional) - current signing date for rollback detection\n");
 	process.stdout.write("\tJS date format YYYY-MM-DDTHH:mm:SS.XXXZ");
 	process.stdout.write("\tIf not provided, rollback detection is not performed\n");
-	process.stdout.write("-u: use secure element artik/manufacturer\n");
+	process.stdout.write("-u: key ID of the certificate to use from the secure element (e.g. ARTIK)\n");
+	process.stdout.write("\tNote: in this case the root CA corresponding to the key ID certificate\n");
+	process.stdout.write("\t\tchain stored in the secure element is used and '-r' is ignored.\n");
 	process.stdout.write("\nA JSON formatted string with verification result and error information is output on stdout\n");
 	process.stdout.write("Return value contains an error code among the following ones\n");
 	process.stdout.write("\t0: success\n");

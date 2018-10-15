@@ -211,9 +211,10 @@ Perform signature verification of a binary against its PKCS7 signature.
 **Parameters**
 
  - *String*: path to the file containing the PKCS7 signature in PEM format
- - *String*: path to the file containing the root CA file in PEM format
- - *String*: Key path and identity ID of the certificate to use as the root CA.
- Use an empty string if you wan to use the root CA in root_ca_file
+ - *String*: path to the file containing the root CA file in PEM format.
+ If 'cert_id' is not an empty string, this parameter is ignored.
+ - *String*: Key ID of the certificate chain to use as the root CA.
+ Use an empty string to use the root CA set in 'root_ca_file'
  - *Date*: signing date of the previous applied update package, used for rollback detection.
  - *function(Object result)*: object containing result information as described below:
 
