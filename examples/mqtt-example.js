@@ -71,7 +71,7 @@ var mqtt = new(require('../src/mqtt.js'))('artik_mqtt_client',
 					  akc_device_id,
 					  akc_device_token,
 					  false,
-					  0,
+					  20000,
 					  true,
 					  ssl_config);
 
