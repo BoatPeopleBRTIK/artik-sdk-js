@@ -93,14 +93,6 @@ artik_cloud.get_current_user_profile(function(err, response) {
     }
 }, ssl_config);
 
-artik_cloud.get_device_token(device_id, function(err, response) {
-    if (!err) {
-        console.log("Get Device Token - response: " + JSON.stringify(response));
-    } else {
-        console.log("Get Device Token - error: " + err);
-    }
-}, ssl_config);
-
 artik_cloud.get_device(device_id, false, function(err, response) {
     if (!err) {
         console.log("Get Device without properties - response: " + JSON.stringify(response));
@@ -162,6 +154,14 @@ artik_cloud.update_device_token(device_id, function(err, response) {
         console.log("Update Device Token - response: " + JSON.stringify(response));
     } else {
         console.log("Update Device Token - error: " + err);
+    }
+}, ssl_config);
+
+artik_cloud.get_device_token(device_id, function(err, response) {
+    if (!err) {
+        console.log("Get Device Token - response: " + JSON.stringify(response));
+    } else {
+        console.log("Get Device Token - error: " + err);
     }
 }, ssl_config);
 
