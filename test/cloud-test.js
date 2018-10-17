@@ -36,16 +36,15 @@ if (process.env.CLOUD_CA_ROOT_FILE != "")
 var ssl_config = {
 	ca_cert: Buffer.from(data),
 	verify_cert: process.env.CLOUD_VERIFY_CERT == 1 ? "required" : "none",
-	secure:  process.env.WEBSOCKET_ENABLE_SDR == 1 ?
+}
+
+if(process.env.WEBSOCKET_ENABLE_SDR == 1) {
 	se_config : {
 		key_id: "ARTIK/0",
 		key_algo: "ecc_sec_p256r1"
-	} :
-	se_config : {
-		key_id: "none",
-		key_algo: "none"
 	}
 }
+ssl_config["se_config"] = se_config;
 
 var response = cloud2.get_device_properties(device_id, timestamp, ssl_config);
 var akc_auth_token = JSON.parse(response).data.serverProperties.akc_auth_token;

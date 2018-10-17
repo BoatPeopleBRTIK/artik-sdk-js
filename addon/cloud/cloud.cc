@@ -135,6 +135,13 @@ static void on_connection_callback(void *user_data, void *result) {
     Local<Function>::New(isolate, *obj->getConnectionCb())->Call(
         isolate->GetCurrentContext()->Global(), 1, argv);
     return;
+  } else if (ret == ARTIK_WEBSOCKET_CONNECTION_ERROR) {
+    Handle<Value> argv[] = {
+      Handle<Value>(String::NewFromUtf8(isolate, "CONNECTION ERROR")),
+    };
+    Local<Function>::New(isolate, *obj->getConnectionCb())->Call(
+        isolate->GetCurrentContext()->Global(), 1, argv);
+    return;
   }
 
   log_err("Wrong value for callback result");
