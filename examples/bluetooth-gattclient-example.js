@@ -1,6 +1,6 @@
 var bluetooth = require("../src/bluetooth");
 
-var SERVICE_IMMEDIATE_ALERT = "0000180f-0000-1000-8000-00805f9b34fb";
+var SERVICE_IMMEDIATE_ALERT = "c9fec4ee-edec-4b87-9013-1a72897d500d";
 var CHAR_BATTERY_LEVEL = "00002a19-0000-1000-8000-00805f9b34fb";
 var DESC_TEST = "ffffffff-ffff-ffff-ffff-abcdabcdabcd";
 

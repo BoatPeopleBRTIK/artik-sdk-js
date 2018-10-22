@@ -21,7 +21,7 @@ var countDown = function(updateValueCallback)
 
 global.gatt_server.start_advertising({
 	type: "peripheral",
-	serviceUuids: [ "00001802-0000-1000-8000-00805f9b34fb", "0000180f-0000-1000-8000-00805f9b34fb" ],
+	serviceUuids: [ "00001802-0000-1000-8000-00805f9b34fb", "c9fec4ee-edec-4b87-9013-1a72897d500d" ],
 });
 
 var descriptor = new GattServer.Descriptor({
@@ -47,7 +47,7 @@ var characteristic = new GattServer.Characteristic({
 });
 
 global.gatt_server.add_service({
-	uuid: "0000180f-0000-1000-8000-00805f9b34fb",
+	uuid: "c9fec4ee-edec-4b87-9013-1a72897d500d",
 	characteristics: [
 		characteristic
 	]
